@@ -1,7 +1,5 @@
-import { memo, useEffect } from 'react';
+import { memo, useLayoutEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
 import {
   Box,
   Drawer,
@@ -15,58 +13,41 @@ import {
 import { useApplicationSettings } from 'context/application';
 import logo from 'assets/images/logo.svg';
 
-const useStyles = makeStyles(({ transitions }) => ({
-  sideBarLogo: {
-    height: ({ topBarHeight }) => topBarHeight,
-  },
-  sideBar: {
-    width: ({ sideBarWidth }) => sideBarWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-  },
-  sideBarOpen: {
-    width: ({ sideBarWidth }) => sideBarWidth,
-    transition: transitions.create('width', {
-      easing: transitions.easing.sharp,
-      duration: transitions.duration.enteringScreen,
-    }),
-  },
-  sideBarClose: {
-    transition: transitions.create('width', {
-      easing: transitions.easing.sharp,
-      duration: transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: ({ shiftedSideBarWidth }) => shiftedSideBarWidth,
-  },
-}));
+import { useSideBarStyles } from './styles';
 
-export const SideBar = memo(({ items }) => {
+export const SideBar = memo(({ items, width, shiftedWidth }) => {
   const { settings, setSettingsProperty } = useApplicationSettings();
-  const classes = useStyles(settings);
+
+  const classes = useSideBarStyles(settings);
+
   const location = useLocation();
 
-  useEffect(() => {
-    setSettingsProperty('hasSideBar', true);
+  useLayoutEffect(() => {
+    setSettingsProperty('sideBar', {
+      display: true,
+      opened: false,
+      width,
+      shiftedWidth,
+    });
 
-    return () => setSettingsProperty('hasSideBar', false);
+    return () =>
+      setSettingsProperty('sideBar', {
+        display: false,
+        opened: false,
+        width: 0,
+        shiftedWidth: 0,
+      });
   }, []);
 
   return (
     <Drawer
       variant="permanent"
-      className={clsx(classes.sideBar, {
-        [classes.sideBarOpen]: settings.sideBarOpened,
-        [classes.sideBarClose]: !settings.sideBarOpened,
-      })}
+      className={classes.root}
       classes={{
-        paper: clsx({
-          [classes.sideBarOpen]: settings.sideBarOpened,
-          [classes.sideBarClose]: !settings.sideBarOpened,
-        }),
+        paper: classes.root,
       }}
     >
-      <Box display="flex" className={classes.sideBarLogo}>
+      <Box component={Link} to="/" display="flex" className={classes.logo}>
         <img src={logo} alt="logo" />
       </Box>
       <Divider />
@@ -91,4 +72,6 @@ export const SideBar = memo(({ items }) => {
 
 SideBar.defaultProps = {
   items: [],
+  width: 240,
+  shiftedWidth: 60,
 };

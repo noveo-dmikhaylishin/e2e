@@ -1,12 +1,16 @@
 import { createContext, useContext } from 'react';
 
 export const defaultApplicationSettings = {
-  sideBarWidth: 240,
-  shiftedSideBarWidth: 56,
-  topBarHeight: 64,
-  hasTopBar: false,
-  hasSideBar: false,
-  sideBarOpened: false,
+  sideBar: {
+    display: false,
+    opened: false,
+    width: 0,
+    shiftedWidth: 0,
+  },
+  topBar: {
+    display: false,
+    height: 0,
+  },
 };
 
 export const ApplicationContext = createContext({

@@ -8,12 +8,17 @@ import {
 
 export const Application = memo(({ children }) => {
   const [settings, setSettings] = useState(defaultApplicationSettings);
-  const setSettingsProperty = useCallback((propertyName, value) => {
+
+  const setSettingsProperty = useCallback((propertyName, valueOrFunc) => {
     setSettings((prevSettings) => ({
       ...prevSettings,
-      [propertyName]: value,
+      [propertyName]:
+        typeof valueOrFunc === 'function'
+          ? valueOrFunc(prevSettings[propertyName])
+          : valueOrFunc,
     }));
   }, []);
+
   const contextValue = useMemo(
     () => ({ settings, setSettings, setSettingsProperty }),
     [settings, setSettings, setSettingsProperty]

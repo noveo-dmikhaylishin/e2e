@@ -1,56 +1,41 @@
+import { memo, useCallback, useEffect } from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton } from '@material-ui/core';
 import { Menu as MenuIcon } from '@material-ui/icons';
-import { useCallback, useEffect } from 'react';
 
 import { useApplicationSettings } from 'context/application';
 
-const useStyles = makeStyles(({ transitions, zIndex }) => ({
-  appBar: {
-    zIndex: zIndex.drawer + 1,
-    height: ({ topBarHeight }) => topBarHeight,
-    transition: transitions.create(['width', 'margin'], {
-      easing: transitions.easing.sharp,
-      duration: transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: ({ sideBarWidth }) => sideBarWidth,
-    width: ({ sideBarWidth }) => `calc(100% - ${sideBarWidth}px)`,
-    transition: transitions.create(['width', 'margin'], {
-      easing: transitions.easing.sharp,
-      duration: transitions.duration.enteringScreen,
-    }),
-  },
-  appBarDrawerMenuButton: {
-    marginRight: 36,
-  },
-}));
+import { useTopBarStyles } from './styles';
 
-export const TopBar = () => {
-  const { settings, setSettings, setSettingsProperty } =
-    useApplicationSettings();
-  const classes = useStyles(settings);
+export const TopBar = memo(({ height, children }) => {
+  const { settings, setSettingsProperty } = useApplicationSettings();
+  const classes = useTopBarStyles(settings);
 
   useEffect(() => {
-    setSettingsProperty('hasTopBar', true);
+    setSettingsProperty('topBar', {
+      display: true,
+      height,
+    });
 
-    return () => setSettingsProperty('hasTopBar', false);
+    return () =>
+      setSettingsProperty('topBar', {
+        display: false,
+        height: 0,
+      });
   }, []);
 
   const toggleSideBar = useCallback(() => {
-    setSettings((prevSettings) => ({
-      ...prevSettings,
-      sideBarOpened: !prevSettings.sideBarOpened,
+    setSettingsProperty('sideBar', (sideBar) => ({
+      ...sideBar,
+      opened: !sideBar.opened,
     }));
-  }, [setSettings]);
+  }, [setSettingsProperty]);
 
   return (
     <AppBar
       position="fixed"
-      className={clsx(classes.appBar, {
-        [classes.appBarShift]: settings.sideBarOpened,
+      className={clsx(classes.root, {
+        [classes.shifted]: settings.sideBar.opened,
       })}
     >
       <Toolbar>
@@ -59,14 +44,15 @@ export const TopBar = () => {
           aria-label="open drawer"
           onClick={toggleSideBar}
           edge="start"
-          className={classes.appBarDrawerMenuButton}
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap>
-          Awesome application
-        </Typography>
+        {children}
       </Toolbar>
     </AppBar>
   );
+});
+
+TopBar.defaultProps = {
+  height: 60,
 };
