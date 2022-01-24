@@ -22,9 +22,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "cypress:open": "cypress open",
-    "puppeteer:start": "jest",
-    "nightwatch:start": "nightwatch --env chrome"
+    "start:cypress": "cypress open",
+    "start:puppeteer": "jest",
+    "start:nightwatch": "nightwatch --env chrome"
   },
   "eslintConfig": {
     "extends": [
