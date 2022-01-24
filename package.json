@@ -22,8 +22,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "puppeteer:start": "jest",
-    "nightwatch:start": "nightwatch --env chrome"
+    "start:cypress": "cypress open",
+    "start:puppeteer": "jest",
+    "start:nightwatch": "nightwatch --env chrome"
   },
   "eslintConfig": {
     "extends": [
@@ -47,6 +48,7 @@
     "@babel/core": "^7.14.8",
     "@babel/eslint-parser": "^7.14.9",
     "@babel/preset-react": "^7.14.5",
+    "cypress": "^9.1.0",
     "chromedriver": "^97.0.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
