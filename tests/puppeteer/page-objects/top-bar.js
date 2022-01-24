@@ -1,6 +1,4 @@
-export class TopBar {
-  static burgerMenuButtonSelector = `${TopBar.rootSelector} .MuiButtonBase-root`;
-
+class TopBar {
   selectRoot() {
     return page.waitForXPath('.//*[contains(@class, "MuiAppBar-root")]');
   }
@@ -21,3 +19,5 @@ export class TopBar {
     return this.selectRoot().then((root) => root.$x('./h6'));
   }
 }
+
+module.exports.TopBar = TopBar;

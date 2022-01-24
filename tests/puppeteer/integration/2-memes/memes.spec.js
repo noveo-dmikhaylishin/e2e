@@ -1,5 +1,5 @@
-import { Memes } from '../../page-objects/memes';
-import { interceptMemes } from '../../helpers/interceptors';
+const { Memes } = require('../../page-objects/memes');
+const { interceptMemes } = require('../../helpers/interceptors');
 
 describe('Memes page', () => {
   const memes = new Memes();

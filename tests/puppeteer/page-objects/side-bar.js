@@ -1,4 +1,4 @@
-export class SideBar {
+class SideBar {
   static menuItemSelector = `.//*[contains(@class, "MuiListItemText-root")]`;
 
   selectRoot() {
@@ -38,3 +38,5 @@ export class SideBar {
     return this.selectMenuLinkByText(text).then((element) => element.click());
   }
 }
+
+module.exports.SideBar = SideBar;

@@ -1,7 +1,7 @@
-import { SideBar } from '../../page-objects/side-bar';
-import { TopBar } from '../../page-objects/top-bar';
-import { Home } from '../../page-objects/home';
-import { waitForAnimation } from '../../helpers/wait-for-animation';
+const { SideBar } = require('../../page-objects/side-bar');
+const { TopBar } = require('../../page-objects/top-bar');
+const { Home } = require('../../page-objects/home');
+const { waitForAnimation } = require('../../helpers/wait-for-animation');
 
 describe('Application layout', () => {
   const topBar = new TopBar();

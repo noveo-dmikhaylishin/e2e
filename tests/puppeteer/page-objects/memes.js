@@ -1,4 +1,4 @@
-export class Memes {
+class Memes {
   async visit() {
     await page.goto('http://localhost:3000/memes');
   }
@@ -29,3 +29,5 @@ export class Memes {
     );
   }
 }
+
+module.exports.Memes = Memes;

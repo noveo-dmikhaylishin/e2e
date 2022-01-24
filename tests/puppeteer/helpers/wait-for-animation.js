@@ -1,4 +1,4 @@
-export const waitForAnimation = async (selector) => {
+const waitForAnimation = async (selector) => {
   await page.evaluate(
     (element) =>
       new Promise((resolve) => {
@@ -15,3 +15,5 @@ export const waitForAnimation = async (selector) => {
 
   return selector;
 };
+
+module.exports.waitForAnimation = waitForAnimation;
