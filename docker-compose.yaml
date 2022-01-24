@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  web:
+    build: .
+    container_name: e2e-web
+    restart: on-failure
+    ports:
+      - 8081:80

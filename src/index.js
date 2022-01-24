@@ -6,8 +6,6 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { theme } from 'theme';
 import { App } from 'components/app';
 
-import 'assets/styles/index.scss';
-
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <BrowserRouter>
