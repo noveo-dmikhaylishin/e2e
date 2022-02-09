@@ -1,6 +1,6 @@
 class Home {
   async visit() {
-    await page.goto('http://localhost:3000/', { failOnStatusCode: false });
+    await page.goto('http://localhost:3000/');
 
     return this;
   }

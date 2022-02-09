@@ -4,20 +4,26 @@ describe('Memes page', () => {
   const memes = new Memes();
 
   it('Memes fetched after mount', () => {
-    cy.interceptMemes().as('memes');
+    cy.interceptMemes().as('memesRequest');
 
     memes.visit();
 
-    cy.get('@memes').its('response.statusCode').should('eq', 200);
+    cy.get('@memesRequest').its('response.statusCode').should('eq', 200);
+    cy.get('@memesRequest').its('response.body.data').should('have.length', 12);
+
+    memes.selectMemes().should('have.length', 12);
   });
 
   it('Pagination page changed', () => {
     const newPage = 2;
 
-    cy.interceptMemes().as('memes');
+    cy.interceptMemes().as('memesRequest');
 
-    memes.clickOnThePaginationButtonByValue(newPage);
+    memes.clickOnThePaginationButtonByPage(newPage);
 
-    cy.get('@memes').its('response.statusCode').should('eq', 200);
+    cy.get('@memesRequest').its('response.statusCode').should('eq', 200);
+    cy.get('@memesRequest').its('response.body.data').should('have.length', 12);
+
+    memes.selectMemes().should('have.length', 12);
   });
 });

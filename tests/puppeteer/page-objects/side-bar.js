@@ -1,33 +1,26 @@
-class SideBar {
-  static menuItemSelector = `.//*[contains(@class, "MuiListItemText-root")]`;
+const { findByXpath } = require('../helpers/xpath');
 
+class SideBar {
   selectRoot() {
     return page.waitForXPath('.//*[contains(@class, "MuiDrawer-root")]');
   }
 
   selectMenuContentByText(text) {
-    return this.selectRoot()
-      .then((root) => root.$x(`.//*[contains(@class, "MuiList-root")]`))
-      .then(([menu]) =>
-        menu.$x(
-          `.//*[contains(@class, "MuiListItemText-root")]//span[contains(text(), "${text}")]`
-        )
-      )
-      .then(([menuItem]) => menuItem);
+    return findByXpath(
+      this.selectRoot(),
+      `.//*[contains(@class, "MuiList-root")]//*[contains(@class, "MuiListItemText-root")]//span[contains(text(), "${text}")]`
+    );
   }
 
   async selectMenuLinkByText(text) {
-    return this.selectMenuContentByText(text)
-      .then((menuContent) =>
-        menuContent.$x('./ancestor::*[contains(@class, "MuiListItem-root")]')
-      )
-      .then(([item]) => item);
+    return findByXpath(
+      this.selectMenuContentByText(text),
+      './ancestor::*[contains(@class, "MuiListItem-root")]'
+    );
   }
 
   selectLogo() {
-    return this.selectRoot()
-      .then((root) => root.$x(`.//img`))
-      .then(([item]) => item);
+    return findByXpath(this.selectRoot(), './/img');
   }
 
   clickOnTheLogo() {

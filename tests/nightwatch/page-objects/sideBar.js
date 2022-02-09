@@ -1,27 +1,22 @@
-const getMenuElementSelector = (text) =>
-  `.//*[contains(@class, "")]//span[contains(text(), "${text}")]`;
-
-const getMenuLinkSelector = (text) =>
-  [
-    getMenuElementSelector(text),
-    `/ancestor::*[contains(@class, "MuiListItem-root")]`,
-  ].join('');
-
 const sideBarCommands = {
   checkMenuContentIsPresentByText(text) {
+    const { linkContent } = this.elements;
+
     // eslint-disable-next-line no-unused-expressions
     this.expect.element({
-      selector: getMenuElementSelector(text),
-      locateStrategy: 'xpath',
+      selector: linkContent.selector.replace('{text}', text),
+      locateStrategy: linkContent.locateStrategy,
     }).to.be.present;
 
     return this;
   },
 
   clickOnTheMenuLinkByText(text) {
+    const { link } = this.elements;
+
     return this.click({
-      selector: getMenuLinkSelector(text),
-      locateStrategy: 'xpath',
+      selector: link.selector.replace('{text}', text),
+      locateStrategy: link.locateStrategy,
     });
   },
 
@@ -72,8 +67,19 @@ module.exports = {
       selector: './/*[contains(@class, "MuiDrawer-root")]',
       locateStrategy: 'xpath',
       elements: {
+        linkContent: {
+          selector:
+            './/*[contains(@class, "MuiListItemText-root")]//span[contains(text(), "{text}")]',
+          locateStrategy: 'xpath',
+        },
+        link: {
+          selector:
+            './/*[contains(@class, "MuiListItemText-root")]//span[contains(text(), "{text}")]/ancestor::*[contains(@class, "MuiListItem-root")]',
+          locateStrategy: 'xpath',
+        },
         paper: {
           selector: './/*[contains(@class, "MuiPaper-root")]',
+          locateStrategy: 'xpath',
         },
         logo: {
           selector: './/img',

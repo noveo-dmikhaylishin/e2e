@@ -1,12 +1,15 @@
+const { findByXpath } = require('../helpers/xpath');
+
 class TopBar {
   selectRoot() {
     return page.waitForXPath('.//*[contains(@class, "MuiAppBar-root")]');
   }
 
   selectBurgerButton() {
-    return this.selectRoot()
-      .then((root) => root.$x('.//*[contains(@class, "MuiButtonBase-root")]'))
-      .then(([button]) => button);
+    return findByXpath(
+      this.selectRoot(),
+      './/*[contains(@class, "MuiButtonBase-root")]'
+    );
   }
 
   async clickOnTheBurgerButton() {
@@ -16,7 +19,7 @@ class TopBar {
   }
 
   selectTitle() {
-    return this.selectRoot().then((root) => root.$x('./h6'));
+    return findByXpath(this.selectRoot(), './h6');
   }
 }
 

@@ -15,13 +15,15 @@ describe('Memes page', () => {
   it('Pagination page changed', async () => {
     const newPage = 2;
 
-    await memes.clickOnThePaginationButtonByValue(newPage);
+    await memes.clickOnThePaginationButtonByPage(newPage);
 
     const response = await interceptMemes();
     const responseJson = await response.json();
 
+    const memesCards = await memes.selectMemes();
+
     expect(response.status()).toBe(200);
-    expect(responseJson).toHaveProperty('data');
     expect(responseJson.data).toHaveLength(12);
+    expect(memesCards).toHaveLength(12);
   });
 });

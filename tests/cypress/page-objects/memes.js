@@ -13,13 +13,21 @@ export class Memes {
     return this.root().find('nav.MuiPagination-root');
   }
 
-  selectPaginationButtonByValue(value) {
+  selectPaginationButtonByPage(page) {
     return this.selectPagination()
       .find('li > .MuiButtonBase-root')
-      .contains(value);
+      .contains(page);
   }
 
-  clickOnThePaginationButtonByValue(value) {
-    return this.selectPaginationButtonByValue(value).click();
+  selectMemesGrid() {
+    return this.root().find('div.MuiGrid-container');
+  }
+
+  selectMemes() {
+    return this.selectMemesGrid().find('div.MuiGrid-item');
+  }
+
+  clickOnThePaginationButtonByPage(page) {
+    return this.selectPaginationButtonByPage(page).click();
   }
 }

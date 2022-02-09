@@ -1,3 +1,5 @@
+const { findByXpath, findAllByXpath } = require('../helpers/xpath');
+
 class Memes {
   async visit() {
     await page.goto('http://localhost:3000/memes');
@@ -8,23 +10,35 @@ class Memes {
   }
 
   selectPagination() {
-    return this.selectRoot()
-      .then((root) => root.$x('.//nav[contains(@class, "MuiPagination-root")]'))
-      .then(([pagination]) => pagination);
+    return findByXpath(
+      this.selectRoot(),
+      './/nav[contains(@class, "MuiPagination-root")]'
+    );
   }
 
-  selectPaginationButtonByValue(value) {
-    return this.selectPagination()
-      .then((pagination) =>
-        pagination.$x(
-          `.//li//*[contains(@class, "MuiButtonBase-root") and contains(text(), ${value})]`
-        )
-      )
-      .then(([button]) => button);
+  selectPaginationButtonByPage(page) {
+    return findByXpath(
+      this.selectPagination(),
+      `.//li//*[contains(@class, "MuiButtonBase-root") and contains(text(), ${page})]`
+    );
   }
 
-  clickOnThePaginationButtonByValue(value) {
-    return this.selectPaginationButtonByValue(value).then((button) =>
+  selectMemesGrid() {
+    return findByXpath(
+      this.selectRoot(),
+      './/div[contains(@class, "MuiGrid-container")]'
+    );
+  }
+
+  selectMemes() {
+    return findAllByXpath(
+      this.selectMemesGrid(),
+      './/div[contains(@class, "MuiGrid-item")]'
+    );
+  }
+
+  clickOnThePaginationButtonByPage(page) {
+    return this.selectPaginationButtonByPage(page).then((button) =>
       button.click()
     );
   }

@@ -2,6 +2,7 @@ const { SideBar } = require('../../page-objects/side-bar');
 const { TopBar } = require('../../page-objects/top-bar');
 const { Home } = require('../../page-objects/home');
 const { waitForAnimation } = require('../../helpers/wait-for-animation');
+const { getPathname } = require('../../helpers/url');
 
 describe('Application layout', () => {
   const topBar = new TopBar();
@@ -29,7 +30,7 @@ describe('Application layout', () => {
   it('Click on the memes button in the sidebar redirected to memes', async () => {
     await sideBar.clickOnTheMenuLinkByText('Memes');
 
-    const pathname = await page.evaluate(() => document.location.pathname);
+    const pathname = await getPathname();
 
     expect(pathname).toBe('/memes');
   });
@@ -38,7 +39,7 @@ describe('Application layout', () => {
     await topBar.clickOnTheBurgerButton();
     await sideBar.clickOnTheLogo();
 
-    const pathname = await page.evaluate(() => document.location.pathname);
+    const pathname = await getPathname();
 
     expect(pathname).toBe('/');
   });

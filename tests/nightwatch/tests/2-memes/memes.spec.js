@@ -1,29 +1,26 @@
-module.exports = {
-  tags: ['Memes page'],
+describe('Memes page', function () {
+  this.tags = ['memes', 'page'];
 
-  before(browser) {
+  before((browser) => {
     browser.maximizeWindow();
 
-    const memes = browser.page.memes();
+    this.memes = browser.page.memes();
 
-    memes.navigate();
-  },
+    this.memes.navigate();
+  });
 
-  'Memes fetched after mount': (browser) => {
-    const memes = browser.page.memes();
+  it('Memes displayed after opening the page', () => {
+    this.memes.checkMemesGridIsPresent();
+  });
 
-    memes.checkMemesGridIsPresent();
-  },
-
-  'Pagination page changed': () => {
-    const memes = browser.page.memes();
+  it('Pagination page changed', () => {
     const newPage = 2;
 
-    memes
+    this.memes
       .clickOnThePaginationButtonByPage(newPage)
       .checkMemesGridIsPresent()
       .checkMemesCount(12);
-  },
+  });
 
-  after: (browser) => browser.end(),
-};
+  after((browser) => browser.end());
+});

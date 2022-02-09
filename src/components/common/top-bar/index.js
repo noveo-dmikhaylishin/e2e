@@ -39,12 +39,7 @@ export const TopBar = memo(({ height, children }) => {
       })}
     >
       <Toolbar>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          onClick={toggleSideBar}
-          edge="start"
-        >
+        <IconButton color="inherit" onClick={toggleSideBar} edge="start">
           <MenuIcon />
         </IconButton>
         {children}

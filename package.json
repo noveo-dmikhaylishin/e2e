@@ -24,7 +24,10 @@
     "eject": "react-scripts eject",
     "start:cypress": "cypress open",
     "start:puppeteer": "jest",
-    "start:nightwatch": "nightwatch --env chrome"
+    "start:nightwatch": "nightwatch --env chrome",
+    "start:headless:cypress": "cypress run --browser chrome --headless",
+    "start:headless:puppeteer": "HEADLESS=true jest",
+    "start:headless:nightwatch": "nightwatch --env chrome --headless"
   },
   "eslintConfig": {
     "extends": [

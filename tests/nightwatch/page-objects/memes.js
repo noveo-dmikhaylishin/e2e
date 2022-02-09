@@ -1,16 +1,5 @@
-const getPaginationButtonSelectorByPage = (page) =>
-  `.//li//*[contains(@class, "MuiButtonBase-root") and contains(text(), "${page}")]`;
-
 const memesCommands = {
-  checkMemesGridIsPresent() {
-    // eslint-disable-next-line no-unused-expressions
-    this.expect.element('@grid').to.be.present;
-
-    return this;
-  },
-
   checkMemesCount(expectedCount) {
-    // eslint-disable-next-line no-unused-expressions
     this.expect.elements('@meme').count.to.equal(expectedCount);
 
     return this;
@@ -19,16 +8,19 @@ const memesCommands = {
 
 const paginationCommands = {
   clickOnThePage(page) {
+    const { button } = this.elements;
+
     return this.click({
-      selector: getPaginationButtonSelectorByPage(page),
-      locateStrategy: 'xpath',
+      selector: button.selector.replace('{page}', page),
+      locateStrategy: button.locateStrategy,
     });
   },
 };
 
 const rootCommands = {
   checkMemesGridIsPresent() {
-    this.section.memes.checkMemesGridIsPresent();
+    // eslint-disable-next-line no-unused-expressions
+    this.expect.section('@memes').to.be.present;
 
     return this;
   },
@@ -55,10 +47,6 @@ module.exports = {
       locateStrategy: 'xpath',
       commands: [memesCommands],
       elements: {
-        grid: {
-          selector: '.',
-          locateStrategy: 'xpath',
-        },
         meme: {
           selector: './/div[contains(@class, "MuiGrid-item")]',
           locateStrategy: 'xpath',
@@ -69,6 +57,12 @@ module.exports = {
       selector: './/nav[contains(@class, "MuiPagination-root")]',
       locateStrategy: 'xpath',
       commands: [paginationCommands],
+      elements: {
+        button: {
+          selector: `.//li//*[contains(@class, "MuiButtonBase-root") and contains(text(), "{page}")]`,
+          locateStrategy: 'xpath',
+        },
+      },
     },
   },
 };
